@@ -84,14 +84,53 @@ const makeGuess = function (guess) {
 	} else {
 		guessedLetters.push(guess);
 		console.log(guessedLetters);
+		showLettersGuessed();
+		updateProgressingWord(guessedLetters);
+	}
+};
+
+// function to show guessed letters
+
+const showLettersGuessed = function () {
+	//clear list
+	guessedLettersElement.innerHTML = "";
+	for (const letter of guessedLetters) {
+	const li = document.createElement("li");
+	li.innerText = letter;
+	guessedLettersElement.append(li);
+  }
+};
+
+// function to update the word in progress
+
+const updateProgressingWord = function (guessedLetters) {
+	const wordUpper = word.toUpperCase();
+	//split word string into array 
+	const wordArray = wordUpper.split("");
+	const wordReveal = [];
+
+	for (const letter of wordArray) {
+		if (guessedLetters.includes(letter)) {
+			wordReveal.push(letter.toUpperCase());
+		} else {
+			wordReveal.push("●");
+		}
+	}
+	//console.log(wordArray);
+     wordInProgress.innerText = wordReveal.join("");
+     guessedWord();
+	
+};
+
+// function to check if the player won
+
+const guessedWord = function () {
+	if (word.toUpperCase() ===  wordInProgress.innerText) {
+		message.classList.add("win");
+		message.innerHTML = `<p class="highlight">You've guessed the Correct Word! Hooray!!</p>`;
 	}
 };
 
 
 
 
-
-
-
-//guessed letter append to end of list
-//update paragraphs innerText
