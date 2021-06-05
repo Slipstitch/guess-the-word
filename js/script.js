@@ -15,12 +15,13 @@ const SpanGuesses = document.querySelector(".remaining span");
 const message = document.querySelector(".message");
 //hidden button play again please
 const playAgainButton = document.querySelector(".play-again");
-//test word
 
+
+//test word
 let word = "magnolia";
 //all the letters the player guesses
-const guessedLetters = [];
-//global variable for number of guesses
+let guessedLetters = [];
+// variable for number of guesses
 let remainingGuesses = 8;
 
 
@@ -34,7 +35,7 @@ const getWord = async function () {
 	const randomIndex = Math.floor(Math.random() * wordArray.length);
 	//pull out random word and remove extra white space using trim() and reassign value of existing "word" var
 	word = wordArray[randomIndex].trim();
-	console.log(words);
+	//console.log(words);
 	//call placeholder function pass variable holding random word
 	updateWordInProgress(word);
 };
@@ -75,13 +76,13 @@ guessButton.addEventListener ("click", function (e) {
 });
 
 //function to validate player's input
-const validateInput = function(input) {
+const validateInput = function (input) {
 	const acceptedLetter = /[a-zA-Z]/;
 	// input is empty
 	if (input.length === 0) {
 		message.innerText = "Please enter one letter!";
 	// player typed in more than one letter
-	} else if (input.length > 1) {
+	} else if (input.length > 1) { //player typed more than one letter
 		message.innerText ="Only one letter at a time, silly!";
 	// player typed a number, special character, or nonletter
 	} else if (!input.match(acceptedLetter)) {
@@ -148,7 +149,10 @@ const updateGuessesRemaining = function (guess) {
 		message.innerText = `Great Guess! The word has the letter ${guess}!`;
 	}
 	if (remainingGuesses === 0) {
-		message.innerHTML = `Game Over! The word was <span class="highlight>${word}</span>.`;
+		message.innerHTML = `Game Over! The word was <span class="highlight">${word}</span>.`;
+
+		startOver();
+		
 	} else if (remainingGuesses === 1 ) {
 		SpanGuesses.innerText = `${remainingGuesses} guess`;
 	} else {
@@ -162,8 +166,43 @@ const guessedWord = function (guess) {
 	if (word.toUpperCase() ===  wordInProgress.innerText) {
 		message.classList.add("win");
 		message.innerHTML = `<p class="highlight">You've guessed the Correct Word! Hooray!!</p>`;
+
+		startOver();
 	}
 };
+
+//Function to Hide and Show Elements
+const startOver = function () {
+	guessButton.classList.add("hide");
+	remainingGuessesElement.classList.add("hide");
+	guessedLettersElement.classList.add("hide");
+	playAgainButton.classList.remove("hide");
+
+};
+
+//Click Event to the Play Again Button
+playAgainButton.addEventListener ("click", function () {
+	// reset all original values and grab a new word
+	message.classList.remove("win");
+	message.innerText = "";
+	guessedLettersElement.innerHTML = "";
+	remainingGuesses = 8;
+	guessedLetters = [];
+	SpanGuesses.innerText = `${remainingGuesses} guesses`;
+
+	//new word
+	getWord();
+
+	//show UI elements
+	guessButton.classList.remove("hide");
+	remainingGuessesElement.classList.remove("hide");
+	guessedLettersElement.classList.remove("hide");
+	playAgainButton.classList.add("hide");
+
+
+});
+
+
 
 
 
