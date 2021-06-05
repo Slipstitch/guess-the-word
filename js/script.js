@@ -100,7 +100,7 @@ const makeGuess = function (guess) {
 		message.innerText = "You've already guessed that letter! Please try again!";
 	} else {
 		guessedLetters.push(guess);
-		console.log(guessedLetters);
+		//console.log(guessedLetters);
 		updateGuessesRemaining(guess);
 		showLettersGuessed();
 		updateProgressingWord(guessedLetters);
@@ -152,7 +152,7 @@ const updateGuessesRemaining = function (guess) {
 		message.innerHTML = `Game Over! The word was <span class="highlight">${word}</span>.`;
 
 		startOver();
-		
+
 	} else if (remainingGuesses === 1 ) {
 		SpanGuesses.innerText = `${remainingGuesses} guess`;
 	} else {
